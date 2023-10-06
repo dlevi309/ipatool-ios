@@ -11,4 +11,7 @@ If you rather just install without building, I've added a pre-compiled .deb to t
 ### Credits
 Obviously Majd Alfhaily for providing such an awesome [tool](https://github.com/majd/ipatool) and a special thank-you to John Coates for providing [flexdecrypt](https://github.com/JohnCoates/flexdecryptl) which this projects file hierarchy is heavily based on
 
-[My Twitter](https://twitter.com/insan1d)  
+[My Mastadon](https://mastodon.social/@dlevi)  
+
+## Troubleshooting
+As of today’s date (October 5th, 2023) this is *still* working. If you do happen to have any problems with 2FA, please refer to this [thread](https://github.com/dlevi309/ipatool-ios/issues/2#issuecomment-1078571991) 
