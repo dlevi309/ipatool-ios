@@ -15,3 +15,5 @@ Obviously Majd Alfhaily for providing such an awesome [tool](https://github.com/
 
 ## Troubleshooting
 As of today’s date (October 5th, 2023) this is *still* working. If you do happen to have any problems with 2FA, please refer to this [thread](https://github.com/dlevi309/ipatool-ios/issues/2#issuecomment-1078571991) 
+
+If this ever breaks, I’ll push out an update, but at this point it seems unlikely.
