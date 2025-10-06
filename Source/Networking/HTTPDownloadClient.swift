@@ -74,6 +74,7 @@ extension HTTPDownloadClient: URLSessionDownloadDelegate {
         }
         
         do {
+            try? FileManager.default.removeItem(at: target)
             try FileManager.default.moveItem(at: location, to: target)
             completionHandler?(.success(()))
         } catch {
