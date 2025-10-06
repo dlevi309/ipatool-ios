@@ -74,21 +74,38 @@ final class StoreClient: StoreClientInterface {
         authenticate(email: email,
                      password: password,
                      code: code,
-                     isFirstAttempt: true,
+                     attempt: 1,
+                     redirect: nil,
                      completion: completion)
     }
     
     private func authenticate(email: String,
                               password: String,
                               code: String?,
-                              isFirstAttempt: Bool,
+                              attempt: Int,
+                              redirect: HTTPEndpoint?,
                               completion: @escaping (Result<StoreResponse.Account, Swift.Error>) -> Void) {
-        let request = StoreRequest.authenticate(email: email, password: password, code: code)
+        if attempt > 4 {
+            completion(.failure(Error.tooManyAttempts))
+        }
+
+        let request = StoreRequest.authenticate(email: email, password: password, code: code, attempt: attempt, redirect: redirect)
         
         httpClient.send(request) { [weak self] result in
             switch result {
             case let .success(response):
                 do {
+                    if response.statusCode == 302 {
+                        let redirect = RedirectEndpoint(location: response.headers["Location"])
+
+                        return self?.authenticate(email: email,
+                                                  password: password,
+                                                  code: code,
+                                                  attempt: attempt + 1,
+                                                  redirect: redirect,
+                                                  completion: completion) ?? ()
+                    }
+
                     let decoded = try response.decode(StoreResponse.self, as: .xml)
 
                     switch decoded {
@@ -99,11 +116,12 @@ final class StoreClient: StoreClientInterface {
                     case let .failure(error):
                         switch error {
                         case StoreResponse.Error.invalidCredentials:
-                            if isFirstAttempt {
+                            if attempt == 1 {
                                 return self?.authenticate(email: email,
                                                           password: password,
                                                           code: code,
-                                                          isFirstAttempt: false,
+                                                          attempt: attempt + 1,
+                                                          redirect: nil,
                                                           completion: completion) ?? ()
                             }
 
@@ -152,5 +170,6 @@ extension StoreClient {
     enum Error: Swift.Error {
         case timeout
         case invalidResponse
+        case tooManyAttempts
     }
 }

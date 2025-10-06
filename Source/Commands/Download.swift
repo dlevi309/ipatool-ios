@@ -32,12 +32,13 @@ extension Download {
         
         logger.log("Creating HTTP client...", level: .debug)
         let httpClient = HTTPClient(urlSession: URLSession.shared)
+        let httpStoreClient = HTTPClient(urlSession: URLSession.noRedirect)
 
         logger.log("Creating iTunes client...", level: .debug)
         let itunesClient = iTunesClient(httpClient: httpClient)
 
         logger.log("Creating App Store client...", level: .debug)
-        let storeClient = StoreClient(httpClient: httpClient)
+        let storeClient = StoreClient(httpClient: httpStoreClient)
 
         logger.log("Creating download client...", level: .debug)
         let downloadClient = HTTPDownloadClient()
@@ -104,6 +105,8 @@ extension Download {
                     switch error {
                     case StoreClient.Error.invalidResponse:
                         logger.log("Received invalid response.", level: .error)
+                    case StoreClient.Error.tooManyAttempts:
+                        logger.log("Too many attempts.", level: .error)
                     case StoreResponse.Error.invalidAccount:
                         logger.log("This Apple ID has not been set up to use the App Store.", level: .error)
                     case StoreResponse.Error.invalidCredentials:
@@ -122,6 +125,8 @@ extension Download {
                 switch error {
                 case StoreClient.Error.invalidResponse:
                     logger.log("Received invalid response.", level: .error)
+                case StoreClient.Error.tooManyAttempts:
+                    logger.log("Too many attempts.", level: .error)
                 case StoreResponse.Error.invalidAccount:
                     logger.log("This Apple ID has not been set up to use the App Store.", level: .error)
                 case StoreResponse.Error.invalidCredentials:

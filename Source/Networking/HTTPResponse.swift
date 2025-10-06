@@ -9,6 +9,7 @@ import Foundation
 
 struct HTTPResponse {
     let statusCode: Int
+    let headers: [AnyHashable: Any]
     let data: Data?
 }
 
