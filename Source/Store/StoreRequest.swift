@@ -8,15 +8,15 @@
 import Foundation
 
 enum StoreRequest {
-    case authenticate(email: String, password: String, code: String? = nil)
+    case authenticate(email: String, password: String, code: String? = nil, attempt: Int? = nil, redirect: HTTPEndpoint? = nil)
     case download(appIdentifier: String, directoryServicesIdentifier: String)
 }
 
 extension StoreRequest: HTTPRequest {
     var endpoint: HTTPEndpoint {
         switch self {
-        case let .authenticate(_, _, code):
-            return StoreEndpoint.authenticate(prefix: (code == nil) ? "p25" : "p71", guid: guid)
+        case let .authenticate(_, _, _, _, redirect):
+            return redirect ?? StoreEndpoint.authenticate
         case .download:
             return StoreEndpoint.download(guid: guid)
         }
@@ -45,11 +45,10 @@ extension StoreRequest: HTTPRequest {
     
     var payload: HTTPPayload? {
         switch self {
-        case let .authenticate(email, password, code):
+        case let .authenticate(email, password, code, attempt, _):
             return .xml([
                 "appleId": email,
-                "attempt": "\(code == nil ? "4" : "2")",
-                "createSession": "true",
+                "attempt": String(attempt ?? 1),
                 "guid": guid,
                 "password": "\(password)\(code ?? "")",
                 "rmp": "0",

@@ -8,7 +8,7 @@
 import Foundation
 
 enum StoreEndpoint {
-    case authenticate(prefix: String, guid: String)
+    case authenticate
     case download(guid: String)
 }
 
@@ -22,8 +22,8 @@ extension StoreEndpoint: HTTPEndpoint {
     
     private var host: String {
         switch self {
-        case let .authenticate(prefix, _):
-            return "\(prefix)-buy.itunes.apple.com"
+        case .authenticate:
+            return "buy.itunes.apple.com"
         case .download:
             return "p25-buy.itunes.apple.com"
         }
@@ -31,8 +31,8 @@ extension StoreEndpoint: HTTPEndpoint {
     
     private var path: String {
         switch self {
-        case let .authenticate(_, guid):
-            return "/WebObjects/MZFinance.woa/wa/authenticate?guid=\(guid)"
+        case .authenticate:
+            return "/WebObjects/MZFinance.woa/wa/authenticate"
         case let .download(guid):
             return "/WebObjects/MZFinance.woa/wa/volumeStoreDownloadProduct?guid=\(guid)"
         }

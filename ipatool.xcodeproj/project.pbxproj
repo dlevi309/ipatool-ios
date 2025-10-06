@@ -31,6 +31,7 @@
 		65EECE7A2673C8EA00014AF4 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EECE782673C8EA00014AF4 /* Download.swift */; };
 		65EECE7B2673C8EA00014AF4 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EECE792673C8EA00014AF4 /* Search.swift */; };
 		65EECE7E2673C97500014AF4 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 65EECE7D2673C97500014AF4 /* ZIPFoundation */; };
+		F5BBBA3C2E9366CA00A929EE /* RedirectEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BBBA3B2E9366C400A929EE /* RedirectEndpoint.swift */; };
 		FA8FFD3D24ABB7D0008FD73C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8FFD3C24ABB7D0008FD73C /* Assets.xcassets */; };
 		FA8FFD4024ABB7D0008FD73C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8FFD3E24ABB7D0008FD73C /* LaunchScreen.storyboard */; };
 		FA8FFD4B24ABBDB0008FD73C /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = FA8FFD4A24ABBDB0008FD73C /* ArgumentParser */; };
@@ -61,6 +62,7 @@
 		65EECE722673C8BE00014AF4 /* StoreResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreResponse.swift; sourceTree = "<group>"; };
 		65EECE782673C8EA00014AF4 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		65EECE792673C8EA00014AF4 /* Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		F5BBBA3B2E9366C400A929EE /* RedirectEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectEndpoint.swift; sourceTree = "<group>"; };
 		FA8FFD3024ABB7CB008FD73C /* ipatool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ipatool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8FFD3C24ABB7D0008FD73C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA8FFD3F24ABB7D0008FD73C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		65EECE5A2673C8A800014AF4 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				F5BBBA3B2E9366C400A929EE /* RedirectEndpoint.swift */,
 				65EECE5B2673C8A800014AF4 /* HTTPEndpoint.swift */,
 				65EECE5C2673C8A800014AF4 /* HTTPPayload.swift */,
 				65EECE5D2673C8A800014AF4 /* HTTPRequest.swift */,
@@ -296,6 +299,7 @@
 				65EECE682673C8A800014AF4 /* HTTPClient.swift in Sources */,
 				FA8FFD4D24ABBE14008FD73C /* main.swift in Sources */,
 				65EECE582673C89B00014AF4 /* LogLevel.swift in Sources */,
+				F5BBBA3C2E9366CA00A929EE /* RedirectEndpoint.swift in Sources */,
 				65EECE512673C88F00014AF4 /* iTunesClient.swift in Sources */,
 				65EECE502673C88F00014AF4 /* iTunesEndpoint.swift in Sources */,
 				65EECE4F2673C88F00014AF4 /* iTunesResponse.swift in Sources */,

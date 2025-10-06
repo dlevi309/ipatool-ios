@@ -54,7 +54,7 @@ final class HTTPClient: HTTPClientInterface {
                     return completion(.failure(Error.invalidResponse(response)))
                 }
                 
-                completion(.success(.init(statusCode: response.statusCode, data: data)))
+                completion(.success(.init(statusCode: response.statusCode, headers: response.allHeaderFields, data: data)))
             }.resume()
         } catch {
             completion(.failure(error))
