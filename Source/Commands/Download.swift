@@ -157,8 +157,7 @@ extension Download {
             output = "\(bundleIdentifier)_\(app.identifier)_v\(app.version)_\(Int.random(in: 100...999)).ipa"
         }
         
-        let outputUrl = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-            .appendingPathComponent(output)
+        let outputUrl = URL(fileURLWithPath: output, relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath)).absoluteURL
         logger.log("Output path: '\(outputUrl.path)'.", level: .debug)
 
         logger.log("Creating signature client...", level: .debug)
