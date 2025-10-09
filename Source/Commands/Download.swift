@@ -22,6 +22,9 @@ struct Download: ParsableCommand {
     @Option(name: [.short, .long], help: "The password for the Apple ID.")
     private var password: String?
 
+    @Option(name: [.short, .long], help: "The destination path of the downloaded app package.")
+    private var output: String?
+
     @Option
     private var logLevel: LogLevel = .info
 }
@@ -145,22 +148,28 @@ extension Download {
         logger.log("Requesting a signed copy of '\(app.identifier)' from the App Store...", level: .info)
         let item = try storeClient.item(identifier: "\(app.identifier)", directoryServicesIdentifier: account.directoryServicesIdentifier)
         logger.log("Received a response of the signed copy: \(item.md5).", level: .debug)
-        
-        logger.log("Creating signature client...", level: .debug)
-        let path = FileManager.default.currentDirectoryPath
-            .appending("/\(bundleIdentifier)_\(app.identifier)_v\(app.version)_\(Int.random(in: 100...999))")
-            .appending(".ipa")
 
-        logger.log("Output path: \(path).", level: .debug)
-        let signatureClient = SignatureClient(fileManager: .default, filePath: path)
+        let output: String
+
+        if let cliOutput = self.output {
+            output = cliOutput
+        } else {
+            output = "\(bundleIdentifier)_\(app.identifier)_v\(app.version)_\(Int.random(in: 100...999)).ipa"
+        }
+        
+        let outputUrl = URL(fileURLWithPath: output, relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath)).absoluteURL
+        logger.log("Output path: '\(outputUrl.path)'.", level: .debug)
+
+        logger.log("Creating signature client...", level: .debug)
+        let signatureClient = SignatureClient(fileManager: .default, fileUrl: outputUrl)
 
         logger.log("Downloading app package...", level: .info)
-        try downloadClient.download(from: item.url, to: URL(fileURLWithPath: path)) { progress in
+        try downloadClient.download(from: item.url, to: outputUrl) { progress in
             logger.log("Downloading app package... [\(Int((progress * 100).rounded()))%]",
                        prefix: "\u{1B}[1A\u{1B}[K",
                        level: .info)
         }
-        logger.log("Saved app package to \(URL(fileURLWithPath: path).lastPathComponent).", level: .info)
+        logger.log("Saved app package to '\(outputUrl.path)'.", level: .info)
 
         logger.log("Applying patches...", level: .info)
         try signatureClient.appendMetadata(item: item, email: email)

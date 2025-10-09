@@ -15,15 +15,15 @@ protocol SignatureClientInterface {
 
 final class SignatureClient: SignatureClientInterface {
     private let fileManager: FileManager
-    private let filePath: String
+    private let fileUrl: URL
     
-    init(fileManager: FileManager, filePath: String) {
+    init(fileManager: FileManager, fileUrl: URL) {
         self.fileManager = fileManager
-        self.filePath = filePath
+        self.fileUrl = fileUrl
     }
     
     func appendMetadata(item: StoreResponse.Item, email: String) throws {
-        guard let archive = Archive(url: URL(fileURLWithPath: filePath), accessMode: .update) else  {
+        guard let archive = Archive(url: fileUrl, accessMode: .update) else  {
             throw Error.invalidArchive
         }
 
@@ -40,7 +40,7 @@ final class SignatureClient: SignatureClientInterface {
     }
     
     func appendSignature(item: StoreResponse.Item) throws {
-        guard let archive = Archive(url: URL(fileURLWithPath: filePath), accessMode: .update) else  {
+        guard let archive = Archive(url: fileUrl, accessMode: .update) else  {
             throw Error.invalidArchive
         }
 
